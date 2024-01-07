@@ -1,7 +1,15 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
+
+var pastHour = $('.past');
+var presentHour = $('.present');
+var futureHour = $('.future');
+var saveButton = $('.saveBtn');
+var currentTime = dayjs()
+
 $(function () {
+
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -21,3 +29,32 @@ $(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
 });
+
+// A more modern way of 'var' is either 'let' or 'const'
+
+$(function () {
+  for (let i = 9; i < 18; i++) {
+    console.log(i)
+    console.log($('#hour-'+i))
+  if(i < currentTime.hour()) {
+    $('#hour-'+i).addClass('past');
+  } else if(i === currentTime.hour()) {
+    $('#hour-'+i).addClass('present');
+  } else {
+    $('#hour-'+i).addClass('future');
+  }
+  }
+})
+
+saveButton.on('click', function(){
+  console.log(saveButton);
+  console.log(currentTime.hour())
+  // 'this' is the button you clicked
+
+  const text = $(this).parent().find(".description").val()
+  const hour = $(this).parent().attr("id").split("-")[1]
+
+  console.log("Text:" + text)
+  console.log("Hour:" + hour)
+})
+
