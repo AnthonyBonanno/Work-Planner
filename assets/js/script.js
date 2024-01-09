@@ -30,8 +30,6 @@ $(function () {
   // TODO: Add code to display the current date in the header of the page.
 });
 
-// A more modern way of 'var' is either 'let' or 'const'
-
 $(function () {
   for (let i = 9; i < 18; i++) {
     console.log(i)
@@ -56,5 +54,14 @@ saveButton.on('click', function(){
 
   console.log("Text:" + text)
   console.log("Hour:" + hour)
+  saveAppointment(text, hour)
 })
+
+function getAppointment(text, hour) {
+  localStorage.getItem(hour, text)
+}
+
+function saveAppointment(text, hour) {
+  localStorage.setItem(hour, text)
+}
 
