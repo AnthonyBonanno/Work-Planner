@@ -21,16 +21,9 @@ $(function () {
     $('#hour-'+i).addClass('future');
   }
   }
-  var i=0;
 
-// This for loop checks for hours that have a text value and then
-  for(let i = 9; i < 18; i++) {
-    var textValue = localStorage.getItem(i);
-    if (localStorage.getItem(i)) {
-      $('#hour-'+i +' .description').val(textValue);
-      console.log(i)
-    }
-  }
+  getAppointment();
+
 });
 
 // Listens for a click event, which will save the text and hour.
@@ -43,18 +36,25 @@ saveButton.on('click', function(){
   // Runs the saveAppointment function once the value of the description and
   // the hour have been found.
   saveAppointment(text, hour);
-  getAppointment();
+ 
 });
 
 // Takes text and hour data and saves them to local storage. 
 function saveAppointment(text, hour) {
   localStorage.setItem(hour, text);
-
 };
 
-// Gets text and hour data from local storage and displays it
-function getAppointment(text, hour) {
-  localStorage.getItem(hour, text);
+// Gets text and hour data from local storage and displays it.
+function getAppointment() {
+  // This for loop checks for hours that have a text value inside localStorage and if the key exists, it creates an element with
+  // the hour id (dynamically) and description class and adds text to it.
+  for(let i = 9; i < 18; i++) {
+    var textValue = localStorage.getItem(i);
+    if (textValue) {
+      $('#hour-'+i +' .description').val(textValue);
+      console.log(i)
+    }
+  }
 };
 
 
