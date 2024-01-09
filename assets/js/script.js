@@ -1,35 +1,14 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-
-var pastHour = $('.past');
-var presentHour = $('.present');
-var futureHour = $('.future');
+//var eventText = $('#hour-9 .description'
 var saveButton = $('.saveBtn');
-var currentTime = dayjs()
+var currentTime = dayjs();
+var todayIs = dayjs().format('dddd');
 
-$(function () {
 
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
-});
+// Displays the current day at the top of the page.
+$('#currentDay').text('Today is ' + todayIs);
 
+// This function checks what the current time is, and then uses a for loop to
+// add classes to every hour block in the html file (relative to current time).
 $(function () {
   for (let i = 9; i < 18; i++) {
     console.log(i)
@@ -42,26 +21,42 @@ $(function () {
     $('#hour-'+i).addClass('future');
   }
   }
-})
+  var i=0;
 
+// This for loop checks for hours that have a text value and then
+  for(let i = 9; i < 18; i++) {
+    var textValue = localStorage.getItem(i);
+    if (localStorage.getItem(i)) {
+      $('#hour-'+i +' .description').val(textValue);
+      console.log(i)
+    }
+  }
+});
+
+// Listens for a click event, which will save the text and hour.
 saveButton.on('click', function(){
-  console.log(saveButton);
-  console.log(currentTime.hour())
+  
   // 'this' is the button you clicked
+  const text = $(this).parent().find(".description").val();
+  const hour = $(this).parent().attr("id").split("-")[1];
 
-  const text = $(this).parent().find(".description").val()
-  const hour = $(this).parent().attr("id").split("-")[1]
+  // Runs the saveAppointment function once the value of the description and
+  // the hour have been found.
+  saveAppointment(text, hour);
+  getAppointment();
+});
 
-  console.log("Text:" + text)
-  console.log("Hour:" + hour)
-  saveAppointment(text, hour)
-})
-
-function getAppointment(text, hour) {
-  localStorage.getItem(hour, text)
-}
-
+// Takes text and hour data and saves them to local storage. 
 function saveAppointment(text, hour) {
-  localStorage.setItem(hour, text)
-}
+  localStorage.setItem(hour, text);
+
+};
+
+// Gets text and hour data from local storage and displays it
+function getAppointment(text, hour) {
+  localStorage.getItem(hour, text);
+};
+
+
+
 
